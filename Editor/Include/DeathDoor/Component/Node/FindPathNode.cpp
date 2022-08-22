@@ -43,15 +43,15 @@ NodeResult CFindPathNode::OnStart(float DeltaTime)
 		}
 
 		Vector3 PlayerPos = Player->GetWorldPos();
-		std::vector<Vector3> vecPath;
-		bool Straight = m_NavAgent->CheckStraightPath(Root->GetWorldPos(), PlayerPos, vecPath);
+		//std::vector<Vector3> vecPath;
+		//bool Straight = m_NavAgent->CheckStraightPath(Root->GetWorldPos(), PlayerPos, vecPath);
 
-		if (Straight)
-		{
-			m_NavAgent->AddPath(PlayerPos);
-		}
+		//if (Straight)
+		//{
+		//	m_NavAgent->AddPath(PlayerPos);
+		//}
 
-		else
+		//else
 			m_NavAgent->FindPath(Root, PlayerPos);
 
 		DataComp->SetPahtFindExecute(true);

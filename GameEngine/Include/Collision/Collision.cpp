@@ -865,6 +865,10 @@ bool CCollision::CollisionRayToBox3D(float& Scale, const Ray& ray, const Box3DIn
 	float AABBMin = -Box.AxisLen[0];
 	float AABBMax = Box.AxisLen[0];
 
+	// AABBMin/Max 넣는 항에 원래 n Dot r(n은 Box의 축 벡터, r은 평면의 임의의 한점)인데, AABBMin/Max를 쓴 이유는
+	// r은 임의의 평면 위 점이므로 Box의 Min, Max를 대입한다면, n Dot r은 축 방향으로 최대 길이와 축 반대 방향으로 최대 길이. 즉 Axis의 길이가 될 것이다
+	// 예를 들어서 생각해보면 Box의 Max가 (4, 0, 0)이고, 축이 (x,y,z) = (1, 0, 0)이라면 n Dot r은 축 방향으로의 축의 길이가 될 것이다
+	// 이것은 축이 회전해도 Box의 Min/Max도 같이 회전하므로 Axis의 길이는 유지되므로, n Dot r 의 자리에 AABBMin/Max로 치환해도 되는것이다										
 	float t1 = (e + AABBMin) / f;
 	float t2 = (e + AABBMax) / f;
 
