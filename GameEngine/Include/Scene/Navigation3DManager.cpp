@@ -326,10 +326,6 @@ bool CNavigation3DManager::CheckNavMeshPoly(const Vector3& Pos, float& Height, i
 		std::vector<Vector3> vecPos;
 		m_NavMeshComponent->GetNavPolgonVertexPos((int)i, vecPos);
 
-		//Vector3 P1 = m_NavMeshComponent->GetVertexPos(i, 0);
-		//Vector3 P2 = m_NavMeshComponent->GetVertexPos(i, 1);
-		//Vector3 P3 = m_NavMeshComponent->GetVertexPos(i, 2);
-
 		Vector3 P1 = vecPos[0];
 		Vector3 P2 = vecPos[1];
 		Vector3 P3 = vecPos[2];
@@ -349,10 +345,10 @@ bool CNavigation3DManager::CheckNavMeshPoly(const Vector3& Pos, float& Height, i
 		float PolyHeight = CandidatePoly.y;
 
 		// 갑자기 아래로 꺼진다면 아래 층에 네비메쉬 폴리곤을 Intersect Check한 가능성이 높다
-		if (PolyHeight + 6.f < Pos.y)
-		{
-			Intersect = false;
-		}
+		//if (PolyHeight + 6.f < Pos.y)
+		//{
+		//	Intersect = false;
+		//}
 
 		if (Intersect)
 		{

@@ -39,6 +39,7 @@ bool CNavMesh::LoadMeshFullPathMultibyte(const char* FullPath)
 	{
 		std::vector<std::string> vecStr;
 
+		// 2번째 인자를 기준으로 나눠서 vecStr에 넣어주는 함수
 		SplitByDelimit(line, ' ', vecStr);
 
 		if (vecStr[0] == "v")
@@ -136,18 +137,6 @@ bool CNavMesh::LoadMeshFullPathMultibyte(const char* FullPath)
 
 	CheckAdjInfo();
 
-	//Count = m_vecNavMeshPolygon.size();
-
-	//for (size_t i = 0; i < Count; ++i)
-	//{
-	//	for (size_t j = 0; j < 3; ++j)
-	//	{
-	//		m_vecNavMeshPolygon[i].m_vecVertexPos[j] = m_vecNavMeshPolygon[i].m_vecVertexPos[j] - Middle;
-	//		m_vecNavMeshPolygon[i].m_vecVertexOriginPos[j] = m_vecNavMeshPolygon[i].m_vecVertexPos[j] - Middle;
-
-	//	}
-	//}
-
 	m_Min = m_Min - Middle;
 	m_Max = m_Max - Middle;
 	m_OriginMin = m_Min;
@@ -164,12 +153,6 @@ bool CNavMesh::LoadMeshFullPathMultibyte(const char* FullPath)
 
 	return true;
 }
-
-bool CNavMesh::LoadMeshFullPathMultibyte(std::string& OutName, const char* FullPath)
-{
-	return false;
-}
-
 
 void CNavMesh::CreatePolygonInfo()
 {
@@ -200,7 +183,6 @@ void CNavMesh::CreatePolygonInfo()
 		++PolyIndex;
 	}
 
-	int a = 3;
 }
 
 void CNavMesh::ReCreateVertexPos()
@@ -220,6 +202,7 @@ void CNavMesh::CheckAdjInfo()
 			{
 				for (int q = 0; q < 3; ++q)
 				{
+					// 매우 가까운 정점은 인접점으로 판단한다
 					if (i != j && m_vecNavMeshPolygon[i].m_vecVertexPos[p].Distance(m_vecNavMeshPolygon[j].m_vecVertexPos[q]) < 0.001f)
 					{
 						// 인접 리스트에 없다면 넣어준다

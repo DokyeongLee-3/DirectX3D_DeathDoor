@@ -83,7 +83,6 @@ public:
 public:
 	virtual bool Init();
 	virtual bool LoadMeshFullPathMultibyte(const char* FullPath);
-	virtual bool LoadMeshFullPathMultibyte(std::string& OutName, const char* FullPath) override;
 
 public:
 	virtual bool ConvertFBX(class CFBXLoader* Loader, const char* FullPath);
