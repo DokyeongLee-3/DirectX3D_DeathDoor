@@ -359,9 +359,6 @@ void CNavMeshComponent::FindPath(const Vector3& Start, const Vector3& End, std::
 	NavigationCell* StartCell = FindCell(Vector3(Start.x, Start.y + 10.f, Start.z));
 	NavigationCell* EndCell = FindCell(Vector3(End.x, End.y + 10.f, End.z));
 
-	if (!StartCell || !EndCell)
-		int a = 3;
-
 	if (StartCell == EndCell)
 	{
 		vecPath.push_back(EndCell->Center);

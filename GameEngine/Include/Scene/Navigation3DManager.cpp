@@ -143,22 +143,12 @@ bool CNavigation3DManager::CheckPlayerNavMeshPoly(float& Height)
 
 		for (size_t i = 0; i < Count; ++i)
 		{
-			//Vector3 P1 = m_NavMeshComponent->GetVertexPos(i, 0);
-			//Vector3 P2 = m_NavMeshComponent->GetVertexPos(i, 1);
-			//Vector3 P3 = m_NavMeshComponent->GetVertexPos(i, 2);
 			std::vector<Vector3> vecPos;
 			m_NavMeshComponent->GetNavPolgonVertexPos((int)i, vecPos);
 			Vector3 P1 = vecPos[0];
 			Vector3 P2 = vecPos[1];
 			Vector3 P3 = vecPos[2];
 
-			//Matrix WorldMat = m_NavMeshComponent->GetWorldMatrix();
-
-			//P1 = P1.TransformCoord(WorldMat);
-			//P2 = P2.TransformCoord(WorldMat);
-			//P3 = P3.TransformCoord(WorldMat);
-
-			//PlayerPos.y += 10.f;
 			XMVECTOR v1 = PlayerPos.Convert();
 
 			XMVECTOR Dir = Vector3(0.f, -1.f, 0.f).Convert();
@@ -172,12 +162,6 @@ bool CNavigation3DManager::CheckPlayerNavMeshPoly(float& Height)
 
 			Vector3 CandidatePoly = (P1 + P2 + P3) / 3.f;
 			float PolyHeight = CandidatePoly.y;
-
-			// 갑자기 아래로 꺼진다면 아래 층에 네비메쉬 폴리곤을 Intersect Check한 가능성이 높다
-			if (PolyHeight + 6.f < PlayerPos.y)
-			{
-				Intersect = false;
-			}
 
 			if (Intersect)
 			{
@@ -198,18 +182,6 @@ bool CNavigation3DManager::CheckPlayerNavMeshPoly(float& Height)
 
 		}
 
-		//Vector3 P1 = m_NavMeshComponent->GetVertexPos(0, 0);
-		//Vector3 P2 = m_NavMeshComponent->GetVertexPos(0, 1);
-		//Vector3 P3 = m_NavMeshComponent->GetVertexPos(0, 2);
-
-		//Matrix WorldMat = m_NavMeshComponent->GetWorldMatrix();
-
-		//P1 = P1.TransformCoord(WorldMat);
-		//P2 = P2.TransformCoord(WorldMat);
-		//P3 = P3.TransformCoord(WorldMat);
-
-		//Player->SetWorldPos(Vector3((P1.x + P2.x + P3.x) / 3.f, (P1.y + P2.y + P3.y) / 3.f, (P1.z + P2.z + P3.z) / 3.f));
-		//m_PlayerPolyIndex = 0;
 		return false;
 	}
 
@@ -225,10 +197,6 @@ bool CNavigation3DManager::CheckPlayerNavMeshPoly(float& Height)
 		Vector3 P1 = vecPos[0];
 		Vector3 P2 = vecPos[1];
 		Vector3 P3 = vecPos[2];
-
-		//P1 = P1.TransformCoord(WorldMat);
-		//P2 = P2.TransformCoord(WorldMat);
-		//P3 = P3.TransformCoord(WorldMat);
 
 		CGameObject* Player = m_Scene->GetPlayerObject();
 		Vector3 PlayerPos = Player->GetWorldPos();
@@ -277,10 +245,6 @@ bool CNavigation3DManager::CheckPlayerNavMeshPoly(float& Height)
 				P1 = vecPos[0];
 				P2 = vecPos[1];
 				P3 = vecPos[2];
-
-				//P1 = P1.TransformCoord(WorldMat);
-				//P2 = P2.TransformCoord(WorldMat);
-				//P3 = P3.TransformCoord(WorldMat);
 
 				XMVECTOR _P1 = P1.Convert();
 				XMVECTOR _P2 = P2.Convert();
@@ -344,12 +308,6 @@ bool CNavigation3DManager::CheckNavMeshPoly(const Vector3& Pos, float& Height, i
 		Vector3 CandidatePoly = (P1 + P2 + P3) / 3.f;
 		float PolyHeight = CandidatePoly.y;
 
-		// 갑자기 아래로 꺼진다면 아래 층에 네비메쉬 폴리곤을 Intersect Check한 가능성이 높다
-		//if (PolyHeight + 6.f < Pos.y)
-		//{
-		//	Intersect = false;
-		//}
-
 		if (Intersect)
 		{
 			float Dist1 = P1.Distance(Pos);
@@ -399,10 +357,10 @@ bool CNavigation3DManager::RefreshPlayerNavMeshPoly(const Vector3& Pos)
 		float PolyHeight = CandidatePoly.y;
 
 		// 갑자기 아래로 꺼진다면 아래 층에 네비메쉬 폴리곤을 Intersect Check한 가능성이 높다
-		if (PolyHeight + 6.f < Pos.y)
-		{
-			Intersect = false;
-		}
+		//if (PolyHeight + 6.f < Pos.y)
+		//{
+		//	Intersect = false;
+		//}
 
 		if (Intersect)
 		{

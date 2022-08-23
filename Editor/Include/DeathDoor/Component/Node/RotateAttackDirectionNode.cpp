@@ -34,8 +34,8 @@ NodeResult CRotateAttackDirectionNode::OnStart(float DeltaTime)
 
 	Vector3 TargetPos;
 	Vector3 ZAxis = m_Object->GetWorldAxis(AXIS::AXIS_Z);
-
-	m_CurrentForwardVector = Vector3(-ZAxis.x, 0.f, -ZAxis.z);
+	ZAxis *= -1.f;
+	m_CurrentForwardVector = ZAxis;
 
 	if (Manager->CheckNavMeshPickingPoint(m_PickingPoint))
 	{
@@ -43,9 +43,9 @@ NodeResult CRotateAttackDirectionNode::OnStart(float DeltaTime)
 		m_DestForwardVector = Vector3(m_PickingPoint.x, 0.f, m_PickingPoint.z) - Vector3(CurrentPos.x, 0.f, CurrentPos.z);
 		m_DestForwardVector.Normalize();
 
-		Vector3 CrossVec = Vector3(m_CurrentForwardVector.x, m_CurrentForwardVector.y, -m_CurrentForwardVector.z).Cross(Vector3(m_DestForwardVector.x, m_DestForwardVector.y, -m_DestForwardVector.z));
+		Vector3 CrossVec = m_CurrentForwardVector.Cross(m_DestForwardVector);
 
-		// 반시계 방향으로 180도가 넘는다
+		// 시계 방향으로 180도가 넘는다
 		if (CrossVec.y < 0)
 			m_Over180 = true;
 		else
@@ -65,7 +65,7 @@ NodeResult CRotateAttackDirectionNode::OnStart(float DeltaTime)
 
 	float DotProduct = CurrentFowardYZero.Dot(DestForwardYZero);
 
-	if (DotProduct > 0.99f)
+	if (DotProduct > 0.9999f || DotProduct < -0.9999f)
 	{
 		m_IsEnd = true;
 		m_Result = NodeResult::Node_True;
@@ -77,14 +77,13 @@ NodeResult CRotateAttackDirectionNode::OnStart(float DeltaTime)
 
 	m_DestForwardVector.Normalize();
 
-
 	CPlayerDataComponent* PlayerDataComp = dynamic_cast<CPlayerDataComponent*>(dynamic_cast<CGameStateComponent*>(m_Owner->GetOwner())->GetData());
 	PlayerDataComp->SetAttackDir(m_DestForwardVector);
 
-	// CurretForwardVector기준 DestForwardVector로 반시계 방향으로 180도가 넘는다면
+	// CurretForwardVector기준 DestForwardVector로 시계 방향으로 180도가 넘는다면 반시계 방향 회전을 해준다
 	if (m_Over180)
 	{
-		m_Object->AddWorldRotationY(Degree);
+		m_Object->AddWorldRotationY(-Degree);
 
 		m_IsEnd = true;
 		m_Result = NodeResult::Node_True;
@@ -93,7 +92,7 @@ NodeResult CRotateAttackDirectionNode::OnStart(float DeltaTime)
 
 	else
 	{
-		m_Object->AddWorldRotationY(-Degree);
+		m_Object->AddWorldRotationY(Degree);
 
 		m_IsEnd = true;
 		m_Result = NodeResult::Node_True;
